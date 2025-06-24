@@ -91,30 +91,50 @@ if ($response1.ToLower() -eq "yes") {
     # 5. Power settings: disable sleep/hibernate and configure power button
     Write-Host "`nConfiguring power settings..."
 
-    try {
-        # Disable sleep and screen timeout
-        powercfg /change standby-timeout-ac 0
-        powercfg /change standby-timeout-dc 0
-        powercfg /change monitor-timeout-ac 0
-        powercfg /change monitor-timeout-dc 0
+    # Disable sleep and screen timeout
+try {
+    powercfg /change standby-timeout-ac 0
+    powercfg /change standby-timeout-dc 0
+    powercfg /change monitor-timeout-ac 0
+    powercfg /change monitor-timeout-dc 0
+    Write-Host "Sleep and screen timeout disabled."
+} catch {
+    Write-Warning "Failed to disable sleep or screen timeout: $_"
+}
 
-        # Turn off hibernation
-        powercfg /hibernate off
+# Turn off hibernation
+try {
+    powercfg /hibernate off
+    Write-Host "Hibernation disabled."
+} catch {
+    Write-Warning "Failed to disable hibernation: $_"
+}
 
-        # Set power button to shut down (action ID 3)
-        $scheme = (powercfg /getactivescheme) -match '{(.+)}' | Out-Null ; $guid = $matches[1]
+# Set power button to shut down
+try {
+    $scheme = (powercfg /getactivescheme) -match '{(.+)}' | Out-Null
+    $guid = $matches[1]
+    Write-Host "Active power scheme: $guid"
+} catch {
+    Write-Warning "Failed to get active power scheme: $_"
+}
 
-        powercfg /setacvalueindex $guid SUB_BUTTONS PBUTTONACTION 3
-        powercfg /setdcvalueindex $guid SUB_BUTTONS PBUTTONACTION 3
+try {
+    powercfg /setacvalueindex $guid SUB_BUTTONS PBUTTONACTION 3
+    powercfg /setdcvalueindex $guid SUB_BUTTONS PBUTTONACTION 3
+    Write-Host "Power button action set to shutdown (AC/DC)."
+} catch {
+    Write-Warning "Failed to set power button action: $_"
+}
 
-        # Apply changes
-        powercfg /setactive $guid
+# Apply the modified power scheme
+try {
+    powercfg /setactive $guid
+    Write-Host "Power scheme changes applied."
+} catch {
+    Write-Warning "Failed to apply power scheme: $_"
+}
 
-        Write-Host "Power settings configured successfully."
-
-    } catch {
-        Write-Host "Error configuring power settings: $_"
-    }
 
 } else {
     Write-Host "PART 1 skipped."
