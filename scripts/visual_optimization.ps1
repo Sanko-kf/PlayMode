@@ -62,32 +62,40 @@ Write-Host "Window animations enabled (open/close, minimize/maximize)."
 Stop-Process -Name explorer -Force
 Start-Process explorer
 
-# Download cursor files from GitHub
-$zipUrl = "https://github.com/Sanko-kf/PlayMode/archive/refs/heads/main.zip"
-$zipPath = "$env:TEMP\PlayMode-main.zip"
-$extractPath = "$env:TEMP\PlayMode-main"
-
-Write-Host "Downloading cursor pack from GitHub..."
-Invoke-WebRequest -Uri $zipUrl -OutFile $zipPath
-
-Add-Type -AssemblyName System.IO.Compression.FileSystem
-[System.IO.Compression.ZipFile]::ExtractToDirectory($zipPath, $env:TEMP)
-
-# Extract only 'assets/Cursor/dark' to user's documents
-$cursorSourcePath = Join-Path $extractPath "PlayMode-main\assets\Cursor\dark"
-$targetCursorPath = "$env:USERPROFILE\Documents\Cursor\dark"
-
-if (-not (Test-Path $targetCursorPath)) {
-    New-Item -ItemType Directory -Path $targetCursorPath -Force | Out-Null
-}
-
-Copy-Item -Path "$cursorSourcePath\*" -Destination $targetCursorPath -Recurse -Force
-Write-Host "Cursor files copied to: $targetCursorPath"
-
 # Cursor theme setup
 $sourceFolder = "$env:USERPROFILE\Documents\Cursor\dark"
 $themeName = "MyTheme"
 $destFolder = "C:\Windows\Cursors\$themeName"
+$baseUrl = "https://raw.githubusercontent.com/Sanko-kf/PlayMode/main/assets/Cursor/dark"
+
+# Create the folder if it doesn't exist
+if (-not (Test-Path $sourceFolder)) {
+    New-Item -Path $sourceFolder -ItemType Directory -Force | Out-Null
+    Write-Host "Created folder: $sourceFolder"
+} else {
+    Write-Host "Folder already exists: $sourceFolder"
+}
+
+# List of files to download
+$files = @(
+    "Install.inf", "appstarting.ani", "arrow.cur", "crosshair.cur", "hand.cur",
+    "help.cur", "ibeam.cur", "no.cur", "nwpen.cur", "person.cur",
+    "pin.cur", "sizeall.cur", "sizenesw.cur", "sizens.cur", "sizenwse.cur",
+    "sizewe.cur", "uparrow.cur", "wait.ani"
+)
+
+# Download each file
+$files | ForEach-Object {
+    $url = "$baseUrl/$_"
+    $destination = Join-Path $sourceFolder $_
+
+    try {
+        Invoke-WebRequest -Uri $url -OutFile $destination -UseBasicParsing -ErrorAction Stop
+        Write-Host "Downloaded: $_"
+    } catch {
+        Write-Warning "Failed to download: $_"
+    }
+}
 
 # Cursor file mapping
 $cursorMap = @{
