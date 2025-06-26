@@ -1,34 +1,14 @@
 # Relaunch script as administrator if not already running in admin mode
 if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole(
     [Security.Principal.WindowsBuiltInRole]::Administrator)) {
-
     Write-Warning "Script is not running as administrator. Relaunching with elevated privileges..."
     $scriptPath = $MyInvocation.MyCommand.Path
     Start-Process powershell -Verb runAs -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$scriptPath`""
     exit
 }
 
-# Disable non-essential services (network, audio, visuals remain unaffected)
-Write-Host "Disabling non-essential services..."
-
-$servicesToDisable = @(
-    "DiagTrack",          # Connected User Experiences and Telemetry
-    "SysMain",            # Superfetch / SysMain
-    "dmwappushservice",   # WAP Push Message Routing Service
-    "Fax",
-    "RetailDemo",
-    "MapsBroker",
-    "WMPNetworkSvc"       # Windows Media Player Network Sharing Service
-)
-
-foreach ($svc in $servicesToDisable) {
-    $service = Get-Service -Name $svc -ErrorAction SilentlyContinue
-    if ($service -and $service.Status -ne "Stopped") {
-        Stop-Service -Name $svc -Force -ErrorAction SilentlyContinue
-        Set-Service -Name $svc -StartupType Disabled
-        Write-Host "$svc disabled"
-    }
-}
+# Optional: Disable non-essential services (can be skipped if minimal changes are needed)
+Write-Host "Skipping service disabling to preserve system stability..."
 
 # Clean user startup folders
 Write-Host "Cleaning user startup folders..."
@@ -42,36 +22,9 @@ foreach ($folder in $startupFolders) {
     }
 }
 
-# Remove unnecessary provisioned apps (system-wide)
-Write-Host "Removing unnecessary provisioned apps..."
-$keepList = @(
-    "Microsoft.WindowsStore",
-    "Microsoft.DesktopAppInstaller"
-)
+# Skip removal of provisioned apps – keep system intact
 
-Get-AppxProvisionedPackage -Online | Where-Object {
-    $keepList -notcontains $_.DisplayName
-} | ForEach-Object {
-    try {
-        Remove-AppxProvisionedPackage -Online -PackageName $_.PackageName -ErrorAction Stop
-        Write-Host "$($_.DisplayName) removed"
-    } catch {
-        Write-Host "Failed to remove: $($_.DisplayName)"
-    }
-}
-
-# Remove unnecessary user-installed UWP apps
-Write-Host "Removing unnecessary user apps..."
-Get-AppxPackage | Where-Object {
-    $keepList -notcontains $_.Name
-} | ForEach-Object {
-    try {
-        Remove-AppxPackage -Package $_.PackageFullName -ErrorAction Stop
-        Write-Host "$($_.Name) removed"
-    } catch {
-        Write-Host "Failed to remove: $($_.Name)"
-    }
-}
+# Skip user Appx removal – except for OneDrive (handled separately)
 
 # Disable known scheduled tasks for performance and privacy
 Write-Host "Disabling known scheduled tasks..."
@@ -93,27 +46,19 @@ foreach ($taskPath in $tasksToDisable) {
     }
 }
 
-# Taskbar alignment: keep centered (Windows 11 default)
-Write-Host "Taskbar alignment left unchanged (centered by default on Windows 11)"
-
 # Enable dark mode
 Write-Host "Enabling dark mode..."
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "AppsUseLightTheme" -Value 0 -Force
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "SystemUsesLightTheme" -Value 0 -Force
 
-# Final message
-Write-Host "System optimization complete. No impact on network, audio, or visual features."
-
-# Uninstall OneDrive
+# Uninstall OneDrive only
 Write-Host "Uninstalling OneDrive..."
 
 $onedriveSetup = "$env:SystemRoot\System32\OneDriveSetup.exe"
 $onedriveUserPath = "$env:USERPROFILE\OneDrive"
 
-# Kill OneDrive processes
 Stop-Process -Name OneDrive -Force -ErrorAction SilentlyContinue
 
-# Run uninstall if setup executable exists
 if (Test-Path $onedriveSetup) {
     Start-Process -FilePath $onedriveSetup -ArgumentList "/uninstall" -Wait
     Write-Host "OneDrive has been uninstalled"
@@ -121,13 +66,12 @@ if (Test-Path $onedriveSetup) {
     Write-Host "OneDriveSetup.exe not found"
 }
 
-# Remove user's OneDrive folder
 if (Test-Path $onedriveUserPath) {
     Remove-Item -Path $onedriveUserPath -Recurse -Force -ErrorAction SilentlyContinue
     Write-Host "OneDrive folder removed"
 }
 
-# Run a local debloat script if found
+# Download and run external Win11 debloat script
 $scriptDirectory = Split-Path -Parent $MyInvocation.MyCommand.Path
 $debloatScript = Join-Path $scriptDirectory "Win11Debloat.ps1"
 $debloatUrl = "https://raw.githubusercontent.com/Raphire/Win11Debloat/master/Win11Debloat.ps1"
