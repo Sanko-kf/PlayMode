@@ -74,7 +74,7 @@ if (Test-Path $onedriveUserPath) {
 # Download and run external Win11 debloat script
 $scriptDirectory = Split-Path -Parent $MyInvocation.MyCommand.Path
 $debloatScript = Join-Path $scriptDirectory "Win11Debloat.ps1"
-$debloatUrl = "https://raw.githubusercontent.com/Raphire/Win11Debloat/master/Win11Debloat.ps1"
+$debloatUrl = "https://raw.githubusercontent.com/Raphire/Win11Debloat/master/releases/download/2025.06.12/Get.ps1"
 
 Invoke-WebRequest -Uri $debloatUrl -OutFile $debloatScript -UseBasicParsing
 
