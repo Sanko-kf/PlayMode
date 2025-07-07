@@ -72,7 +72,7 @@ The goal of **PlayMode** is to provide a **simple and elegant** solution for tho
 
 - **Windows Optimization**: Applies light debloating and system tweaks to improve gaming performance using this **[repository](https://github.com/Raphire/Win11Debloat)**.
 
-- **Custom Sleep Mode**: Offers a tailored sleep solution, ideal for OLED screens.
+- **Custom Sleep Mode**: Offers a tailored sleep solution, ideal for OLED screens based on video format from the folder "SleepVideos" on the default video folder from the user.
 
 - **Visual Customization**: Optional animated wallpaper via **[Lively Wallpaper](https://apps.microsoft.com/detail/9ntm2qc6qws7?hl=en-US&gl=US)** and a **[custom cursor](https://www.deviantart.com/jepricreations/art/Windows-11-Cursors-Concept-886489356)** for a polished look.
 
@@ -106,7 +106,7 @@ Before starting the installation, make sure you meet the following conditions:
 3. Run the installer — it will automatically install and launch the necessary scripts.
 
 It is highly recommended to follow **Part 1** and then **Part 2** of the script.  
-The installation should run smoothly, but for visual learners, a video tutorial is available to guide you through the process. (LINK IS COMING)
+The installation should run smoothly, but for visual learners, **[a video tutorial is avaible](https://youtu.be/gGRgdIMSxxs)** to guide you through the process. 
 
 ## Usage
 
