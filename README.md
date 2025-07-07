@@ -66,7 +66,7 @@ The goal of **PlayMode** is to provide a **simple and elegant** solution for tho
 
 - **Unified Interface**: Brings together all your games (Steam, Epic, GOG, emulators...) in one place using **[Playnite](https://playnite.link/)**.
 
-- **Full Gamepad Control**: Navigate the desktop and control the mouse with **[Controller Companion](https://kogatech.itch.io/controller-companion)** integration.
+- **Full Gamepad Control**: Navigate the desktop and control the mouse with **[JoyXoff](https://joyxoff.com/en/)** integration.
 
 - **Auto Startup**: Launches Playnite in fullscreen mode at Windows startup for an instant console-like experience through a custom shell replacement.
 
@@ -94,9 +94,6 @@ Before starting the installation, make sure you meet the following conditions:
 2. **System State**: It is **strongly recommended** to run this script on a **fresh and fully updated** Windows installation to avoid potential conflicts.  
    Otherwise, consider **creating a restore point** in case something goes wrong during installation.
 
-3. **Paid Software Required**: **[Controller Companion](https://kogatech.itch.io/controller-companion)** (around €3 on Steam or itch.io).  
-   This software is **essential** for enabling mouse control via the gamepad — a core feature of the PlayMode experience. You will need to purchase it during setup.
-
 ## Installation
 
 1. Go to the **[Releases](https://github.com/Sanko-kf/PlayMode/releases/tag/v1.0.0)** page of this project.
@@ -106,7 +103,7 @@ Before starting the installation, make sure you meet the following conditions:
 3. Run the installer — it will automatically install and launch the necessary scripts.
 
 It is highly recommended to follow **Part 1** and then **Part 2** of the script.  
-The installation should run smoothly, but for visual learners, **[a video tutorial is avaible](https://youtu.be/gGRgdIMSxxs)** to guide you through the process. 
+The installation should run smoothly, but for visual learners, **[a video tutorial is avaible](https://youtu.be/gGRgdIMSxxs)** to guide you through the process. This process was originally based on Controller Companion. Thanks to a helpful suggestion from the community on Reddit, it has now been updated to rely entirely on a free and alternative.
 
 ## Usage
 
@@ -117,7 +114,7 @@ On the next boot, **PlayMode will finalize the environment setup automatically**
 > To ensure a seamless, 100% gamepad-driven experience, you should configure all your controller bindings **right after the first boot**.  
 > This includes mouse control, keyboard shortcuts, and paddle assignments (if applicable).  
 >  
-> This will help you avoid needing a mouse or keyboard later, and reduce the risk of issues caused by apps like Controller Companion or Microsoft overlays.  
+> This will help you avoid needing a mouse or keyboard later, and reduce the risk of issues caused by apps like JoyXoff or Microsoft overlays.  
 > (See [Known Issues](#known-issues) for more details.)
 
 > Using a gamepad with paddles or additional buttons provides a more natural and fluid experience.  
@@ -146,19 +143,19 @@ While PlayMode works on all configurations, **users with AMD hardware** may enjo
   In some cases, User Account Control (UAC) prompts cannot be confirmed using a gamepad.  
   **Solution**: Change your user account settings to automatically accept all UAC prompts.  
   **This is only recommended if you're installing software from trusted sources like Steam, Microsoft, ...**  
-  You can adjust this in the Control Panel:  
-  Go to **User Accounts > User Accounts > Change User Account Control settings**, then drag the slider down to **Never notify**, and click OK.  
-  (This step is also shown in the installation video.)
+  You can adjust this permanently in the Control Panel:  
+  Go to **User Accounts > User Accounts > Change User Account Control settings**, then drag the slider down to **Never notify**, and click OK. (This step is also shown in the installation video.)   
+  Instead of disabling UAC system-wide, you can use JoyXoff's built-in feature to manage the prompts but is not as smooth than the first option.
 
 - **Partial gamepad support in some Microsoft apps**  
   Certain Microsoft apps (such as Microsoft Store or Settings) have limited controller support.  
   This can disable the virtual keyboard or prevent full navigation.  
   **No known solution** for this at the moment.
 
-- **Double input in Playnite with Controller Companion**  
-  If **Controller Companion** is active while using Playnite, some actions may result in duplicated input  
+- **Double input in Playnite with JoyXoff**  
+  If **JoyXoff** is active while using Playnite, some actions may result in duplicated input  
   (e.g., a single button press may trigger two actions or open two windows).  
-  **Solution**: Temporarily disable Controller Companion by pressing **Start + Select**.
+  **Solution**: Temporarily disable JoyXoff by pressing **Start + Select**.
 
 - **Occasional Xbox Game Bar overlay pop-up**  
   Sometimes, the **Game Bar overlay** may briefly appear even if it is disabled in settings.  
@@ -168,8 +165,8 @@ While PlayMode works on all configurations, **users with AMD hardware** may enjo
   The system shell is modified to first launch Playnite on startup for aesthetic and immersion purposes.  
   Only after Playnite has fully initialized does the Windows desktop appear — usually after about **20 seconds**.  
   
-  In rare cases, certain applications may update or open unexpectedly during this phase, or **Controller Companion** may auto-launch and interfere with Playnite’s behavior.  
-  **Solution**: If this happens, try using **Alt + Tab** to bring Playnite back into focus, or disable Controller Companion temporarily.  
+  In rare cases, certain applications may update or open unexpectedly during this phase, or **JoyXoff** may auto-launch and interfere with Playnite’s behavior.  
+  **Solution**: If this happens, try using **Alt + Tab** to bring Playnite back into focus, or disable JoyXoff temporarily.  
   If an app is consistently interfering (e.g., opening update popups), consider **disabling its auto-start behavior**.
 
   > **Note**: This behavior is by design and not a bug — the delay ensures a clean, console-like launch experience.
@@ -180,7 +177,7 @@ This project wouldn't exist without the incredible software and resources it rel
 
 - **[Playnite](https://playnite.link/)**: An open-source video game launcher that is highly customizable and perfect for centralizing all your game libraries.
 
-- **[Controller Companion](https://kogatech.itch.io/controller-companion)**: Enables smooth navigation in Windows using a gamepad, turning the experience into a true TV or console-style setup.
+- **[JoyXoff](https://joyxoff.com/en/)**: Enables smooth navigation in Windows using a gamepad, turning the experience into a true TV or console-style setup.
 
 - **[Win11Debloat](https://github.com/Raphire/Win11Debloat)**: An effective script that streamlines Windows 11 by disabling unnecessary services and removing bloatware.
 

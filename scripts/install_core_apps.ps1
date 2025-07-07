@@ -74,9 +74,45 @@ Start-Process "ms-windows-store://pdp/?productid=9NBLGGH30XJ3"
 
 Read-Host "Please configure Xbox Accessories or any third-party tools (e.g. Lossless Scaling, keyboard shortcuts). Press ENTER when ready..."
 
-# 7. Open Controller Companion download page (manual install)
-Write-Host "Opening itch.io page for Controller Companion..."
-Start-Process "https://kogatech.itch.io/controller-companion"
+# 7. Download, extract, and install JoyXoff
+$joyxoffUrl = "https://joyxoff.com/download.php?culture=en&version=3.64.8.4"
+$rarPath = "$env:TEMP\JoyXoff.rar"
+$extractPath = "$env:TEMP\JoyXoff_Extracted"
+$sevenZipInstallerUrl = "https://www.7-zip.org/a/7z2301-x64.exe"
+$sevenZipInstallerPath = "$env:TEMP\7zip_installer.exe"
+$sevenZipPath = "${env:ProgramFiles}\7-Zip\7z.exe"
+
+function Ensure-SevenZip {
+    if (-Not (Test-Path $sevenZipPath)) {
+        Write-Host "7-Zip not found. Downloading and installing 7-Zip..."
+        Invoke-WebRequest -Uri $sevenZipInstallerUrl -OutFile $sevenZipInstallerPath
+        Start-Process -FilePath $sevenZipInstallerPath -ArgumentList "/S" -Wait
+    } else {
+        Write-Host "7-Zip is already installed."
+    }
+}
+
+Write-Host "`n Downloading JoyXoff RAR..."
+Invoke-WebRequest -Uri $joyxoffUrl -OutFile $rarPath
+
+Ensure-SevenZip
+
+if (!(Test-Path -Path $extractPath)) {
+    New-Item -ItemType Directory -Path $extractPath | Out-Null
+}
+
+Write-Host "Extracting JoyXoff using 7-Zip..."
+& "$sevenZipPath" x $rarPath "-o$extractPath" -y | Out-Null
+
+$msiPath = Get-ChildItem -Path $extractPath -Filter *.msi -Recurse | Select-Object -First 1
+
+if ($msiPath) {
+    Write-Host " Installing JoyXoff..."
+    Start-Process "msiexec.exe" -ArgumentList "/i `"$($msiPath.FullName)`"" -Wait
+} else {
+    Write-Host " MSI not found in extracted JoyXoff archive."
+}
+
 
 Read-Host "After installing Controller Companion and configuring all apps, press ENTER to continue..."
 
