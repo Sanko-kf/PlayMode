@@ -127,20 +127,49 @@ if (Test-Path $onedriveUserPath) {
     Write-Host "OneDrive folder removed"
 }
 
-# Run a local debloat script if found
+# Get the directory where this script is running from.
 $scriptDirectory = Split-Path -Parent $MyInvocation.MyCommand.Path
-$debloatScript = Join-Path $scriptDirectory "Win11Debloat.ps1"
-$debloatUrl = "https://raw.githubusercontent.com/Raphire/Win11Debloat/master/Win11Debloat.ps1"
 
-Invoke-WebRequest -Uri $debloatUrl -OutFile $debloatScript -UseBasicParsing
+# Define the name of the script to be downloaded and executed.
+$installerScriptName = "Get.ps1"
+# Define the full path where the installer script will be saved.
+$installerScriptPath = Join-Path $scriptDirectory $installerScriptName
 
-if (-not (Test-Path $debloatScript)) {
-    Write-Error "Debloat.ps1 not found in current directory."
+# Replace this URL with the direct download link to your 'get.ps1' file.
+$installerUrl = "https://github.com/Raphire/Win11Debloat/releases/download/2025.06.12/Get.ps1"
+
+Write-Host "Attempting to download '$installerScriptName'..."
+try {
+    # Download the file from the specified URL and save it to the script's directory.
+    # The -ErrorAction Stop parameter ensures that if Invoke-WebRequest fails, it will trigger the catch block.
+    Invoke-WebRequest -Uri $installerUrl -OutFile $installerScriptPath -UseBasicParsing -ErrorAction Stop
+    Write-Host "Successfully downloaded '$installerScriptName'." -ForegroundColor Green
+}
+catch {
+    # If the download fails, show an error and exit.
+    Write-Error "Failed to download the script from '$installerUrl'."
+    Write-Error "Please verify the URL and your network connection."
+    Read-Host "Press Enter to exit."
     exit 1
 }
 
-Write-Host "Launching local debloat script..."
-Start-Process powershell -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$debloatScript`"" -Verb runAs
+# Double-check that the file actually exists before trying to run it.
+if (-not (Test-Path $installerScriptPath)) {
+    Write-Error "'$installerScriptName' was not found after the download attempt. Aborting."
+    Read-Host "Press Enter to exit."
+    exit 1
+}
+
+
+Write-Host "Launching '$installerScriptName' with administrator privileges..."
+Write-Host "A User Account Control (UAC) prompt may appear. Please accept it to proceed."
+
+Start-Process powershell -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$installerScriptPath`"" -Verb runAs
+
+# The installer script has been launched in a separate window. This main script will now pause.
+Write-Host ""
+Write-Host "The installer has been launched in a new window." -ForegroundColor Cyan
+Read-Host "Press ENTER to continue..."
 
 # Set system power plan to Ultimate Performance
 Write-Host "Enabling Ultimate Performance power plan..."
