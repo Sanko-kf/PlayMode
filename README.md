@@ -94,6 +94,13 @@ Before starting the installation, make sure you meet the following conditions:
 2. **System State**: It is **strongly recommended** to run this script on a **fresh and fully updated** Windows installation to avoid potential conflicts.  
    Otherwise, consider **creating a restore point** in case something goes wrong during installation.
 
+3. **User Account**: You must **ABSOLUTELY** be using a **local administrator account**.  
+   This means one of the following:
+   - You installed Windows 11 **without an Internet connection**, which created a **local account**,  
+   - Or you are using an existing **local administrator account** (not a Microsoft online account).
+
+   If you are not using a local administrator account, the script may **fail** or cause **system errors**.
+
 ## Installation
 
 1. Go to the **[Releases](https://github.com/Sanko-kf/PlayMode/releases/tag/v1.0.0)** page of this project.
