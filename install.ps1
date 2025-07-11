@@ -3,7 +3,8 @@ function Show-Menu {
     Write-Host "==== PlayMode Installer ===="
     Write-Host "1. Add user"
     Write-Host "2. Installation"
-    Write-Host "3. Quit"
+    Write-Host "3. Handheld Device"
+    Write-Host "4. Quit"
     Write-Host ""
 }
 
@@ -25,7 +26,7 @@ function Run-Script-As-Admin {
 
 do {
     Show-Menu
-    $choice = Read-Host "Select an option (1-3)"
+    $choice = Read-Host "Select an option (1-4)"
 
     switch ($choice) {
         "1" {
@@ -65,6 +66,11 @@ do {
             Run-Script-As-Admin "shell.ps1"
         }
         "3" {
+            Invoke-WebRequest "https://raw.githubusercontent.com/Sanko-kf/PlayMode/main/scripts/handheld_device.ps1" ` -OutFile (Join-Path $tempDir "taskbar.ps1")
+
+            Run-Script-As-Admin "handheld_device.ps1"
+        }
+        "4" {
             Write-Host "`nBefore rebooting:"
             Write-Host "- Make sure you've enabled auto-arrange icons on the desktop."
             Write-Host "- Add any desired launchers to the desktop (e.g. Battle.net, Epic, etc.)."
@@ -74,4 +80,4 @@ do {
             Restart-Computer -Force
         }
     }
-} while ($choice -ne "3")
+} while ($choice -ne "4")

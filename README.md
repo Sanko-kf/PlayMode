@@ -37,6 +37,7 @@
   <a href="#installation">Installation</a> •
   <a href="#usage">Usage</a> •
   <a href="#amd-gpu-users">AMD GPU Users</a> •
+  <a href="#handheld-device">Handheld Device</a> •
   <a href="#known-issues">Known Issues</a> •
   <a href="#credits">Credits</a> •
   <a href="#license">License</a> •
@@ -76,10 +77,9 @@ The goal of **PlayMode** is to provide a **simple and elegant** solution for tho
 
 - **Visual Customization**: Optional animated wallpaper via **[Lively Wallpaper](https://apps.microsoft.com/detail/9ntm2qc6qws7?hl=en-US&gl=US)** and a **[custom cursor](https://www.deviantart.com/jepricreations/art/Windows-11-Cursors-Concept-886489356)** for a polished look.
 
+- **Handheld Device Power Management**: This functionality optimizes power management by setting sleep after 1 minutes and hibernation after 3 minutes on both battery and AC power. It customizes the power button so a short press triggers hibernation and a long press triggers shutdown.
 
-> ⚠️ **IMPORTANT WARNING** ⚠️  
-> This script is intended **exclusively for desktop PCs**.  
-> Using it on laptops or handheld devices like the Legion Go or ROG Ally is **strongly discouraged** due to significant differences in sleep mode management.  
+> ⚠️ **IMPORTANT WARNING** ⚠️   
 > Gamepad macros, as well as configurations for Lively Wallpaper and Playnite, are **not included** in the script. You will need to set them up manually.  
 > Many YouTube tutorials are available to help with these steps.  
 > These features may be considered in future updates.
@@ -103,7 +103,11 @@ Before starting the installation, make sure you meet the following conditions:
 3. Run the installer — it will automatically install and launch the necessary scripts.
 
 It is highly recommended to follow **Part 1** and then **Part 2** of the script.  
-The installation should run smoothly, but for visual learners, **[a video tutorial is avaible](https://youtu.be/gGRgdIMSxxs)** to guide you through the process. This process was originally based on Controller Companion. Thanks to a helpful suggestion from the community on Reddit, it has now been updated to rely entirely on a free and alternative.
+The installation should run smoothly, but for visual learners, **[a video tutorial is avaible](https://youtu.be/gGRgdIMSxxs)** to guide you through the process. This process was originally based on Controller Companion and don't include handheld device update. Thanks to a helpful suggestion from the community on Reddit, it has now been updated to rely entirely on a free and alternative.
+
+### Handheld device
+
+For handheld devices, **do not install JoyXoff and optional features during Part 2** of the installation process. Instead, it is **mandatory to run Part 3** at the end before exiting the installer. This ensures proper configuration tailored for portable hardware like the ROG Ally/Legion Go. (See [Handheld Device](#handheld-device) for more details.)
 
 ## Usage
 
@@ -136,6 +140,16 @@ On the next boot, **PlayMode will finalize the environment setup automatically**
 ## AMD GPU Users
 
 While PlayMode works on all configurations, **users with AMD hardware** may enjoy an even more integrated experience by using **[BazziteOS](https://bazzite.gg/)** — an excellent Linux-based alternative designed specifically for gaming and **much more native and optimized** for such systems.
+
+## Handheld Device
+
+PlayMode is now fully compatible with portable devices such as laptops, handheld gaming consoles like the ASUS ROG Ally, Legion Go, and similar platforms.
+
+On this type of device, I strongly recommend prioritizing battery life for optimal comfort. To achieve this:
+
+- The sleep and hibernation behavior has been adjusted to be more aggressive. While this understand it may seem abrupt, the shorter delay significantly improves battery efficiency.
+
+- For better system responsiveness, I advise users to run a more advanced debloater than the default one, in order to remove unnecessary background processes.
 
 ## Known Issues
 
@@ -186,6 +200,10 @@ This project wouldn't exist without the incredible software and resources it rel
 - **[Custom Cursor](https://www.deviantart.com/jepricreations/art/Windows-11-Cursors-Concept-886489356)**: A sleek and elegant Windows 11–inspired cursor pack that gives your system a more modern look.
 
 - **[Sleep Mode Sample (YouTube)](https://youtu.be/2Gg6Seob5Mg?si=yrhkD5iViQ9JGikc)**: An open-source sample video used for implementing sleep mode under Windows.
+
+- **[Talon Debloat)](https://github.com/ravendevteam/talon?tab=readme-ov-file)**: A minimalist configuration and automation tool that simplifies gamepad-based PC usage by automating setup tasks and background tweaks.
+
+- **[Handheld Companion](https://github.com/Valkirie/HandheldCompanion)**: A powerful tool designed for handheld gaming devices on Windows, offering controller remapping, profiles, motion control support, and more.
 
 
 ## License
