@@ -74,16 +74,8 @@ powercfg /change hibernate-timeout-dc 3       # Hibernate after 3 min on battery
 powercfg /change standby-timeout-ac 1         # Sleep after 1 min when plugged in
 powercfg /change hibernate-timeout-ac 3       # Hibernate after 3 min when plugged in
 
-# Disable hybrid sleep
 powercfg /setacvalueindex SCHEME_CURRENT SUB_SLEEP HYBRIDSLEEP 0
 powercfg /setdcvalueindex SCHEME_CURRENT SUB_SLEEP HYBRIDSLEEP 0
-
-# Configure power button to trigger hibernation
-$regPath = "HKLM:\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\7516b95f-f776-4464-8c53-06167f40cc99\7648efa3-dd9c-4e3e-b566-50f929386280"
-Set-ItemProperty -Path $regPath -Name "DCSettingIndex" -Value 3
-Set-ItemProperty -Path $regPath -Name "ACSettingIndex" -Value 3
-
-# Apply current power scheme
 powercfg /S SCHEME_CURRENT
 
 Write-Output "Power configuration applied: sleep, hibernate, power button now triggers hibernate."
