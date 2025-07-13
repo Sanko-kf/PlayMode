@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <img src="assets/playmode_logo.svg" width="300">
+  <img src="assets/playmode_logo.png" width="300">
   <br>
 </h1>
 

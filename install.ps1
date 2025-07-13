@@ -66,13 +66,14 @@ do {
             Run-Script-As-Admin "shell.ps1"
         }
         "3" {
-						
-						$tempDir = Join-Path $PSScriptRoot "temp"
+            $tempDir = Join-Path $PSScriptRoot "temp"
             if (-not (Test-Path $tempDir)) {
                 New-Item -ItemType Directory -Path $tempDir | Out-Null
             }
 
-            Invoke-WebRequest "https://raw.githubusercontent.com/Sanko-kf/PlayMode/main/scripts/handheld_device.ps1" ` -OutFile (Join-Path $tempDir "taskbar.ps1")
+            Invoke-WebRequest `
+                "https://raw.githubusercontent.com/Sanko-kf/PlayMode/main/scripts/handheld_device.ps1" `
+                -OutFile (Join-Path $tempDir "handheld_device.ps1")
 
             Run-Script-As-Admin "handheld_device.ps1"
         }
